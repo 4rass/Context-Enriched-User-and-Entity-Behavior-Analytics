@@ -1,0 +1,212 @@
+{% extends "base.html" %}
+{% block title %}SOC Dashboard{% endblock %}
+{% block content %}
+<div class="container-fluid py-4 px-4">
+
+  <div class="d-flex flex-wrap justify-content-between align-items-center mb-4">
+    <div>
+      <h1 class="h3 mb-1"><i class="bi bi-speedometer2 me-2"></i>Security overview</h1>
+      <p class="text-secondary mb-0 small">
+        Understand the anomaly. Check the context. Make an informed review decision.
+      </p>
+    </div>
+  </div>
+
+  <section class="ce-context-guide mb-4" aria-labelledby="context-heading">
+    <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+      <h2 id="context-heading" class="h5 mb-0">From unusual activity to an explained decision</h2>
+      <span class="ce-demo-label"><i class="bi bi-flask me-1"></i>Academic simulation · synthetic data</span>
+    </div>
+    <div class="row g-3">
+      <div class="col-md-4"><div class="ce-step"><span class="ce-step-number">01</span><h3>Start with an anomaly</h3><p>Raw risk is a score from 0–100. ML means machine learning; here, these starting scores are simulated.</p></div></div>
+      <div class="col-md-4"><div class="ce-step"><span class="ce-step-number">02</span><h3>Add business context</h3><p>Identity and role changes, approved maintenance windows, and asset importance can lower or raise risk.</p></div></div>
+      <div class="col-md-4"><div class="ce-step"><span class="ce-step-number">03</span><h3>Review the evidence</h3><p>Adjusted risk guides review. Suppression means likely benign, not confirmed safe. Open an alert to inspect its factors.</p></div></div>
+    </div>
+    <details class="ce-rule-help mt-3"><summary>How are scores and suppression decided?</summary>
+      <p class="mt-2 mb-1">Approved change −35 · recent authorized role change −20 · department alignment −10 · inactive employee +30 · critical asset +15 · privileged action +20. Scores stay between 0 and 100.</p>
+      <p class="mb-0">Low: below 30 · Medium: 30–59.9 · High: 60–79.9 · Critical: 80–100. Suppression requires a score below 40 and a strong legitimate factor, with no critical suspicious factors or inactive employee status.</p>
+    </details>
+  </section>
+
+  <!-- KPI cards -->
+  <div class="row g-3 mb-4">
+    <div class="col-6 col-lg-2">
+      <div class="ce-kpi">
+        <div class="ce-kpi-label">Total Anomalies</div>
+        <div class="ce-kpi-value">{{ summary.total_anomalies }}</div>
+      </div>
+    </div>
+    <div class="col-6 col-lg-2">
+      <div class="ce-kpi kpi-blue">
+        <div class="ce-kpi-label">Likely benign · suppressed</div>
+        <div class="ce-kpi-value">{{ summary.suppressed_false_positives }}</div>
+      </div>
+    </div>
+    <div class="col-6 col-lg-2">
+      <div class="ce-kpi kpi-blue">
+        <div class="ce-kpi-label">Suppression Rate</div>
+        <div class="ce-kpi-value">{{ summary.suppression_percentage }}<span class="ce-kpi-unit">%</span></div>
+      </div>
+    </div>
+    <div class="col-6 col-lg-2">
+      <div class="ce-kpi kpi-red" title="Active alerts with High or Critical adjusted severity">
+        <div class="ce-kpi-label">High-risk active alerts</div>
+        <div class="ce-kpi-value">{{ summary.active_high_risk_threats }}</div>
+      </div>
+    </div>
+    <div class="col-6 col-lg-2">
+      <div class="ce-kpi" title="Average raw machine-learning risk score before context enrichment">
+        <div class="ce-kpi-label">Avg Raw Risk</div>
+        <div class="ce-kpi-value">{{ summary.average_raw_risk_score }}</div>
+      </div>
+    </div>
+    <div class="col-6 col-lg-2">
+      <div class="ce-kpi kpi-green" title="Average risk score after contextual adjustment">
+        <div class="ce-kpi-label">Avg Adjusted Risk</div>
+        <div class="ce-kpi-value">{{ summary.average_adjusted_risk_score }}</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="d-flex flex-wrap align-items-center gap-2 mb-3" aria-label="Quick alert views">
+    <span class="small text-secondary me-1">Explore alerts</span>
+    <a class="btn btn-ce-outline" href="{{ url_for('dashboard') }}">All alerts</a>
+    <a class="btn btn-ce-outline" href="{{ url_for('dashboard', suppression='Active', severity='Critical') }}">Critical & active</a>
+    <a class="btn btn-ce-outline" href="{{ url_for('dashboard', suppression='Suppressed') }}">Suppressed by context</a>
+    <span class="small text-secondary ms-md-auto">{{ alerts|length }} matching alerts · metrics use the same filters</span>
+  </div>
+  <!-- Filters -->
+  <div class="ce-card p-3 mb-4">
+    <form id="alert-filters" method="get" action="{{ url_for('dashboard') }}" class="row g-2 align-items-end">
+      <div class="col-6 col-md-3">
+        <label class="form-label small mb-1" for="f-severity">Severity</label>
+        <select id="f-severity" name="severity" class="form-select form-select-sm">
+          <option value="">All severities</option>
+          <option value="Critical" {% if request.args.get('severity') == 'Critical' %}selected{% endif %}>Critical</option>
+          <option value="High" {% if request.args.get('severity') == 'High' %}selected{% endif %}>High</option>
+          <option value="Medium" {% if request.args.get('severity') == 'Medium' %}selected{% endif %}>Medium</option>
+          <option value="Low" {% if request.args.get('severity') == 'Low' %}selected{% endif %}>Low</option>
+        </select>
+      </div>
+      <div class="col-6 col-md-3">
+        <label class="form-label small mb-1" for="f-suppression">Suppression status</label>
+        <select id="f-suppression" name="suppression" class="form-select form-select-sm">
+          <option value="">All alerts</option>
+          <option value="Active" {% if request.args.get('suppression') == 'Active' %}selected{% endif %}>Active</option>
+          <option value="Suppressed" {% if request.args.get('suppression') == 'Suppressed' %}selected{% endif %}>Suppressed</option>
+        </select>
+      </div>
+      <div class="col-6 col-md-3">
+        <label class="form-label small mb-1" for="f-department">Department</label>
+        <select id="f-department" name="department" class="form-select form-select-sm">
+          <option value="">All departments</option>
+          {% for dept in departments %}
+          <option value="{{ dept }}" {% if request.args.get('department') == dept %}selected{% endif %}>{{ dept }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="col-6 col-md-3">
+        <label class="form-label small mb-1" for="f-event">Event type</label>
+        <select id="f-event" name="event_type" class="form-select form-select-sm">
+          <option value="">All event types</option>
+          {% for et in event_types %}
+          <option value="{{ et }}" {% if request.args.get('event_type') == et %}selected{% endif %}>{{ et }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="col-12 d-flex gap-2 mt-2">
+        <noscript><button type="submit" class="btn btn-ce-primary btn-sm px-3">Apply filters</button></noscript>
+        <span id="filter-auto-hint" class="small text-secondary align-self-center" hidden>Filters apply automatically when changed.</span>
+        <a href="{{ url_for('dashboard') }}" class="btn btn-outline-secondary btn-sm px-3">Reset</a>
+      </div>
+    </form>
+  </div>
+
+  <!-- Recent alerts table -->
+  <div class="ce-card mb-4">
+    <div class="ce-card-header"><i class="bi bi-table me-2"></i>Recent Alerts</div>
+    <div class="table-responsive">
+      <table class="table table-hover ce-table mb-0 align-middle">
+        <thead>
+          <tr>
+            <th scope="col">Alert</th>
+            <th scope="col">Employee</th>
+            <th scope="col">Department</th>
+            <th scope="col">Event Type</th>
+            <th scope="col">Asset</th>
+            <th scope="col" title="Raw machine-learning score before context enrichment">Raw Risk</th>
+            <th scope="col" title="Score after contextual adjustment by the risk engine">Adjusted Risk</th>
+            <th scope="col">Severity</th>
+            <th scope="col">Suppression</th>
+            <th scope="col">Why this decision?</th>
+            <th scope="col">Timestamp (UTC)</th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for alert in alerts %}
+          <tr>
+            <td class="fw-semibold">#{{ alert.alert_id }}</td>
+            <td>
+              <a href="{{ url_for('user_profile', user_id=alert.user.user_id) }}">{{ alert.user.full_name }}</a>
+            </td>
+            <td>{{ alert.user.department }}</td>
+            <td><code>{{ alert.log.event_type }}</code></td>
+            <td>{{ alert.log.asset.hostname if alert.log.asset else '—' }}</td>
+            <td>{{ '%.1f'|format(alert.raw_ml_risk_score) }}</td>
+            <td class="fw-semibold ce-score-adj">{{ '%.1f'|format(alert.context_adjusted_risk_score) }}
+              {% set change = alert.context_adjusted_risk_score - alert.raw_ml_risk_score %}
+              <span class="ce-score-change">{{ '%+.1f'|format(change) }} pts</span></td>
+            <td><span class="badge sev-{{ alert.severity|lower }}">{{ alert.severity }}</span></td>
+            <td><span class="badge supp-{{ alert.suppression_status|lower }}">{{ alert.suppression_status }}</span></td>
+            <td class="ce-reason-cell" title="{{ alert.suppression_reason or '' }}">
+              <details class="ce-decision"><summary>View context</summary>{{ alert.suppression_reason or 'No explanation recorded.' }}</details>
+            </td>
+            <td class="text-secondary small">{{ alert.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
+            <td>
+              <a class="btn btn-sm btn-ce-outline" href="{{ url_for('alert_details', alert_id=alert.alert_id) }}">
+                Review <i class="bi bi-chevron-right"></i>
+              </a>
+            </td>
+          </tr>
+          {% else %}
+          <tr><td colspan="12" class="text-center text-secondary py-4">No alerts match these filters. <a href="{{ url_for('dashboard') }}">Clear filters</a> to see all alerts.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Charts -->
+  <div class="row g-3 mb-4">
+    <div class="col-lg-6">
+      <div class="ce-card h-100">
+        <div class="ce-card-header"><i class="bi bi-bar-chart-line me-2"></i>Before & after context · risk per alert</div>
+        <div class="card-body p-3 chart-wrap"><canvas id="rawAdjustedChart" role="img" aria-label="Simulated raw and context-adjusted scores; exact values are in the alerts table above."></canvas><div class="chart-error small text-secondary"></div></div>
+      </div>
+    </div>
+    <div class="col-lg-3">
+      <div class="ce-card h-100">
+        <div class="ce-card-header"><i class="bi bi-pie-chart me-2"></i>Alerts by Severity</div>
+        <div class="card-body p-3 chart-wrap"><canvas id="severityChart"></canvas><div class="chart-error small text-secondary"></div></div>
+      </div>
+    </div>
+    <div class="col-lg-3">
+      <div class="ce-card h-100">
+        <div class="ce-card-header"><i class="bi bi-shield-slash me-2"></i>Suppressed vs. Active</div>
+        <div class="card-body p-3 chart-wrap"><canvas id="suppressionChart"></canvas><div class="chart-error small text-secondary"></div></div>
+      </div>
+    </div>
+    <div class="col-lg-12">
+      <div class="ce-card">
+        <div class="ce-card-header"><i class="bi bi-building me-2"></i>Alerts by Department</div>
+        <div class="card-body p-3 chart-wrap"><canvas id="departmentChart"></canvas><div class="chart-error small text-secondary"></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+{% endblock %}

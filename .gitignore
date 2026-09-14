@@ -216,3 +216,13 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Local project exclusions
+.venv/
+__pycache__/
+.pytest_cache/
+instance/
+*.pyc
+.env
+
+.DS_Store

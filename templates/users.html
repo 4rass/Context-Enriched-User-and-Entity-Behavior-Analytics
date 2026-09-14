@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}Users{% endblock %}
+{% block content %}
+<div class="container-fluid py-4 px-4">
+  <h1 class="h3 mb-1"><i class="bi bi-people me-2"></i>Users</h1>
+  <p class="text-secondary small mb-4">IAM directory (synthetic demo data). Click a user to open their risk profile.</p>
+
+  <div class="ce-card">
+    <div class="ce-card-header"><i class="bi bi-table me-2"></i>Directory</div>
+    <div class="table-responsive">
+      <table class="table table-hover ce-table mb-0 align-middle">
+        <thead>
+          <tr>
+            <th scope="col">Employee</th>
+            <th scope="col">Department</th>
+            <th scope="col">Role</th>
+            <th scope="col">Clearance</th>
+            <th scope="col">Status</th>
+            <th scope="col">Alerts</th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for row in rows %}
+          <tr>
+            <td>
+              <div class="fw-semibold">{{ row.user.full_name }}</div>
+              <div class="small text-secondary">{{ row.user.username }} · {{ row.user.email }}</div>
+            </td>
+            <td>{{ row.user.department }}</td>
+            <td>{{ row.user.role.role_name if row.user.role else '—' }}</td>
+            <td>{{ row.user.role.clearance_level if row.user.role else '—' }}</td>
+            <td>
+              <span class="badge {{ 'bg-danger' if row.user.employment_status in ('Terminated','Suspended') else 'bg-success' }}">
+                {{ row.user.employment_status }}
+              </span>
+            </td>
+            <td>{{ row.alert_count }}</td>
+            <td>
+              <a class="btn btn-sm btn-ce-outline" href="{{ url_for('user_profile', user_id=row.user.user_id) }}">
+                Profile <i class="bi bi-chevron-right"></i>
+              </a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

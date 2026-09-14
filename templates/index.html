@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title %}Intelligence in context{% endblock %}
+{% block content %}
+<div class="soc-home">
+  <section class="soc-hero" aria-labelledby="home-title">
+    <div class="soc-hero-copy">
+      <p class="soc-eyebrow"><span class="soc-status-dot"></span> CE-UEBA / CONTEXT INTELLIGENCE</p>
+      <h1 id="home-title">Every signal<br>has a <span>story.</span></h1>
+      <p class="soc-intro">See the context behind the anomaly. Turn unusual activity into an explained decision with Context-Enriched User and Entity Behavior Analytics.</p>
+      <div class="soc-actions">
+        <a class="soc-button" href="{{ url_for('dashboard') }}">Enter the SOC dashboard <i class="bi bi-arrow-up-right" aria-hidden="true"></i></a>
+        <a class="soc-text-link" href="#how-it-works">Discover how it works <span aria-hidden="true">↓</span></a>
+      </div>
+      <p class="soc-footnote">FinansTech Ltd. · Fictional digital banking environment<br>Academic proof of concept · Synthetic data</p>
+    </div>
+    <div class="soc-console" aria-label="Illustrative approved deployment risk calculation">
+      <div class="soc-console-top"><span><i class="bi bi-broadcast" aria-hidden="true"></i> SIGNAL ANALYSIS</span><span class="soc-chip">DEMO SCENARIO A</span></div>
+      <div class="soc-orbit" aria-hidden="true"><div class="soc-orbit-ring"></div><div class="soc-orbit-core"><i class="bi bi-shield-check"></i></div><span class="soc-orbit-node soc-node-one">IDENTITY</span><span class="soc-orbit-node soc-node-two">CHANGE</span><span class="soc-orbit-node soc-node-three">ASSET</span></div>
+      <div class="soc-signal-title"><span class="soc-eyebrow">EVENT / SOFTWARE DEPLOYMENT</span><h2>Aylin Kaya <span>DevOps</span></h2></div>
+      <div class="soc-score-pair"><div><span>Raw risk</span><strong class="soc-raw">82<small>/100</small></strong></div><span class="soc-score-arrow" aria-hidden="true">→</span><div><span>With context</span><strong>37<small>/100</small></strong></div></div>
+      <div class="soc-calculation"><span>Approved change window</span><strong>−35</strong><span>Department alignment</span><strong>−10</strong></div>
+      <div class="soc-verdict"><i class="bi bi-check2-circle" aria-hidden="true"></i><div><strong>Supported by legitimate context</strong><span>Suppressed as likely benign · still available for review</span></div></div>
+    </div>
+  </section>
+
+  <nav class="soc-chapter-nav" aria-label="Explore this page"><span>THE CONTEXT ADVANTAGE</span><a href="#the-problem">01 / The challenge</a><a href="#how-it-works">02 / The approach</a><a href="#explore">03 / Your investigation</a></nav>
+
+  <section id="the-problem" class="soc-section soc-problem" aria-labelledby="problem-title">
+    <div><p class="soc-eyebrow">01 / THE CHALLENGE</p><h2 id="problem-title">Unusual activity.<br>Incomplete picture.</h2></div>
+    <div><p class="soc-section-lead">A promotion. A late deployment. Access to a newly assigned server. Legitimate work can look suspicious when behavior is viewed alone.</p><p>False positives compete for an analyst’s attention. CE-UEBA explores how operational context can help explain these signals and focus the review on activity that remains suspicious.</p><div class="soc-inline-note"><i class="bi bi-lightbulb" aria-hidden="true"></i><span>The key question: <strong>What changed around this user?</strong></span></div></div>
+  </section>
+
+  <section id="how-it-works" class="soc-section" aria-labelledby="approach-title">
+    <p class="soc-eyebrow">02 / THE APPROACH</p><div class="soc-section-heading"><h2 id="approach-title">Four perspectives.<br>One explained decision.</h2><p>Connect the event to the person, the authorization, and the asset. Every factor leaves a readable explanation.</p></div>
+    <div class="soc-source-grid">
+      <article class="soc-source"><span class="soc-source-index">01</span><i class="bi bi-person-badge" aria-hidden="true"></i><h3>Know the identity</h3><span class="soc-source-label">IAM · Identity & access management</span><p>Check roles, clearance, recent promotions, and employment status.</p><div class="soc-source-question">Was this user’s role recently changed?</div></article>
+      <article class="soc-source"><span class="soc-source-index">02</span><i class="bi bi-ticket-perforated" aria-hidden="true"></i><h3>Verify the change</h3><span class="soc-source-label">ITSM · IT service management</span><p>Match the user and asset to an approved ticket and its authorized window.</p><div class="soc-source-question">Was this work approved for this time?</div></article>
+      <article class="soc-source"><span class="soc-source-index">03</span><i class="bi bi-hdd-network" aria-hidden="true"></i><h3>Understand the asset</h3><span class="soc-source-label">ITAM · IT asset management</span><p>Consider ownership, department alignment, and business criticality.</p><div class="soc-source-question">How sensitive is the system involved?</div></article>
+      <article class="soc-source"><span class="soc-source-index">04</span><i class="bi bi-activity" aria-hidden="true"></i><h3>Inspect the behavior</h3><span class="soc-source-label">UEBA · User & entity behavior analytics</span><p>Examine the event, its initial risk score, and suspicious actions.</p><div class="soc-source-question">What did the account actually do?</div></article>
+    </div>
+    <details class="soc-explainer"><summary>Inside the score: what does “ML risk” mean?</summary><div><p>ML stands for machine learning. In this demonstration, the initial ML risk scores are simulated values, not predictions from a trained model. Explicit rules then adjust those values on a 0–100 scale.</p><p>Approved changes and recent authorized role changes can lower risk. Inactive accounts, critical assets, and privileged actions can raise it. Suppression requires a score below 40, a strong legitimate factor, and no critical suspicious factors or inactive employment status. Department alignment alone cannot suppress an alert.</p></div></details>
+  </section>
+
+  <section id="explore" class="soc-section" aria-labelledby="explore-title">
+    <p class="soc-eyebrow">03 / YOUR INVESTIGATION</p><h2 id="explore-title">Follow the evidence.</h2><p class="soc-section-lead">Explore two different outcomes in the demo, then make your own analyst decision.</p>
+    <div class="soc-path-grid">
+      <a class="soc-path" href="{{ url_for('dashboard', suppression='Suppressed') }}"><span class="soc-chip">CONTEXT EXPLAINS THE ACTIVITY</span><h3>A deployment with permission.</h3><p>An approved change and department alignment reduce Aylin’s score from 82 to 37. Inspect why the alert was suppressed.</p><span class="soc-path-link">Explore suppressed alerts <i class="bi bi-arrow-right" aria-hidden="true"></i></span></a>
+      <a class="soc-path soc-path-danger" href="{{ url_for('dashboard', suppression='Active', severity='Critical') }}"><span class="soc-chip">CONTEXT RAISES THE CONCERN</span><h3>A suspended account exports data.</h3><p>Can’s bulk export from a critical database raises the score from 70 to 100. Review the evidence behind an active critical alert.</p><span class="soc-path-link">Investigate critical alerts <i class="bi bi-arrow-right" aria-hidden="true"></i></span></a>
+    </div>
+  </section>
+
+  <section class="soc-closing" aria-labelledby="closing-title"><p class="soc-eyebrow">BUILT FOR EXPLAINABLE REVIEW</p><h2 id="closing-title">See the signal.<br>Understand the why.</h2><p>Compare scores. Inspect stored factors. Explore user profiles.<br>Record a decision with the context in view.</p><a class="soc-button" href="{{ url_for('dashboard') }}">Explore the dashboard <i class="bi bi-arrow-up-right" aria-hidden="true"></i></a><p class="soc-footnote">An academic simulation, not a validated production detection model.<br>Suppressed means likely benign, not confirmed safe.</p></section>
+</div>
+{% endblock %}
