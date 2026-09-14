@@ -1,0 +1,248 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1870" viewBox="0 0 1920 1870">
+<title>CE-UEBA database entity-relationship diagram</title>
+<desc>Six tables with all columns, constraints, and eight foreign-key relationships from the SQLite schema.</desc>
+<rect x="0" y="0" width="1920" height="1870" rx="0" fill="#f1f5f9"/>
+<rect x="0" y="0" width="1920" height="190" rx="0" fill="#0f172a"/>
+<text x="60" y="56.84" font-family="Arial, sans-serif" font-size="24" font-weight="700" fill="#38bdf8">CE-UEBA</text>
+<text x="60" y="115.03999999999999" font-family="Arial, sans-serif" font-size="44" font-weight="700" fill="#ffffff">Database entity-relationship diagram</text>
+<text x="60" y="157.93" font-family="Arial, sans-serif" font-size="23" font-weight="400" fill="#cbd5e1">Physical SQLite schema  /  Identity, assets, behavioral telemetry and risk decisions</text>
+<text x="60" y="232.02" font-family="Arial, sans-serif" font-size="22" font-weight="400" fill="#334155">PK  Primary key     FK  Foreign key     UQ  Unique     NN  Not null     —  Nullable</text>
+<rect x="60" y="265" width="580" height="535" rx="14" fill="#ffffff"/>
+<rect x="60" y="265" width="580" height="8" rx="0" fill="#0f766e"/>
+<text x="82" y="303.47" font-family="Arial, sans-serif" font-size="17" font-weight="700" fill="#0f766e">IDENTITY / IAM</text>
+<text x="82" y="344.3" font-family="Arial, sans-serif" font-size="30" font-weight="700" fill="#0f172a">roles</text>
+<text x="82" y="381.56" font-family="Arial, sans-serif" font-size="16" font-weight="700" fill="#64748b">COLUMN</text>
+<text x="425" y="381.56" font-family="Arial, sans-serif" font-size="16" font-weight="700" fill="#64748b">TYPE</text>
+<text x="553" y="378.83" font-family="Arial, sans-serif" font-size="13" font-weight="700" fill="#64748b">KEY / NULL</text>
+<rect x="72" y="399" width="556" height="32" rx="0" fill="#f8fafc"/>
+<text x="82" y="420.2" font-family="Arial, sans-serif" font-size="20" font-weight="700" fill="#0f172a">role_id</text>
+<text x="425" y="416.56" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#475569">INTEGER</text>
+<text x="553" y="414.74" font-family="Arial, sans-serif" font-size="14" font-weight="700" fill="#0f766e">PK</text>
+<text x="82" y="453.2" font-family="Arial, sans-serif" font-size="20" font-weight="400" fill="#0f172a">role_name</text>
+<text x="425" y="449.56" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#475569">VARCHAR(80)</text>
+<text x="553" y="447.74" font-family="Arial, sans-serif" font-size="14" font-weight="700" fill="#0f766e">UQ NN</text>
+<rect x="72" y="465" width="556" height="32" rx="0" fill="#f8fafc"/>
+<text x="82" y="486.2" font-family="Arial, sans-serif" font-size="20" font-weight="400" fill="#0f172a">clearance_level</text>
+<text x="425" y="482.56" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#475569">INTEGER</text>
+<text x="553" y="480.74" font-family="Arial, sans-serif" font-size="14" font-weight="700" fill="#0f766e">NN</text>
+<rect x="670" y="265" width="580" height="535" rx="14" fill="#ffffff"/>
+<rect x="670" y="265" width="580" height="8" rx="0" fill="#2563eb"/>
+<text x="692" y="303.47" font-family="Arial, sans-serif" font-size="17" font-weight="700" fill="#2563eb">IDENTITY / IAM</text>
+<text x="692" y="344.3" font-family="Arial, sans-serif" font-size="30" font-weight="700" fill="#0f172a">users</text>
+<text x="692" y="381.56" font-family="Arial, sans-serif" font-size="16" font-weight="700" fill="#64748b">COLUMN</text>
+<text x="1035" y="381.56" font-family="Arial, sans-serif" font-size="16" font-weight="700" fill="#64748b">TYPE</text>
+<text x="1163" y="378.83" font-family="Arial, sans-serif" font-size="13" font-weight="700" fill="#64748b">KEY / NULL</text>
+<rect x="682" y="399" width="556" height="32" rx="0" fill="#f8fafc"/>
+<text x="692" y="420.2" font-family="Arial, sans-serif" font-size="20" font-weight="700" fill="#0f172a">user_id</text>
+<text x="1035" y="416.56" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#475569">INTEGER</text>
+<text x="1163" y="414.74" font-family="Arial, sans-serif" font-size="14" font-weight="700" fill="#2563eb">PK</text>
+<text x="692" y="453.2" font-family="Arial, sans-serif" font-size="20" font-weight="400" fill="#0f172a">username</text>
+<text x="1035" y="449.56" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#475569">VARCHAR(64)</text>
+<text x="1163" y="447.74" font-family="Arial, sans-serif" font-size="14" font-weight="700" fill="#2563eb">UQ NN</text>
+<rect x="682" y="465" width="556" height="32" rx="0" fill="#f8fafc"/>
+<text x="692" y="486.2" font-family="Arial, sans-serif" font-size="20" font-weight="400" fill="#0f172a">full_name</text>
+<text x="1035" y="482.56" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#475569">VARCHAR(128)</text>
+<text x="1163" y="480.74" font-family="Arial, sans-serif" font-size="14" font-weight="700" fill="#2563eb">NN</text>
+<text x="692" y="519.2" font-family="Arial, sans-serif" font-size="20" font-weight="400" fill="#0f172a">email</text>
+<text x="1035" y="515.56" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#475569">VARCHAR(128)</text>
+<text x="1163" y="513.74" font-family="Arial, sans-serif" font-size="14" font-weight="700" fill="#2563eb">UQ NN</text>
+<rect x="682" y="531" width="556" height="32" rx="0" fill="#f8fafc"/>
+<text x="692" y="552.2" font-family="Arial, sans-serif" font-size="20" font-weight="400" fill="#0f172a">department</text>
+<text x="1035" y="548.56" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#475569">VARCHAR(64)</text>
+<text x="1163" y="546.74" font-family="Arial, sans-serif" font-size="14" font-weight="700" fill="#2563eb">NN</text>
+<text x="692" y="585.2" font-family="Arial, sans-serif" font-size="20" font-weight="400" fill="#0f172a">employment_status</text>
+<text x="1035" y="581.56" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#475569">VARCHAR(32)</text>
+<text x="1163" y="579.74" font-family="Arial, sans-serif" font-size="14" font-weight="700" fill="#2563eb">NN</text>
+<rect x="682" y="597" width="556" height="32" rx="0" fill="#f8fafc"/>
+<text x="692" y="618.2" font-family="Arial, sans-serif" font-size="20" font-weight="400" fill="#0f172a">role_id</text>
+<text x="1035" y="614.56" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#475569">INTEGER</text>
+<text x="1163" y="612.74" font-family="Arial, sans-serif" font-size="14" font-weight="700" fill="#2563eb">FK</text>
+<text x="692" y="651.2" font-family="Arial, sans-serif" font-size="20" font-weight="400" fill="#0f172a">previous_role_id</text>
+<text x="1035" y="647.56" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#475569">INTEGER</text>
+<text x="1163" y="645.74" font-family="Arial, sans-serif" font-size="14" font-weight="700" fill="#2563eb">FK</text>
+<rect x="682" y="663" width="556" height="32" rx="0" fill="#f8fafc"/>
+<text x="692" y="684.2" font-family="Arial, sans-serif" font-size="20" font-weight="400" fill="#0f172a">role_change_date</text>
+<text x="1035" y="680.56" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#475569">DATETIME</text>
+<text x="1163" y="678.74" font-family="Arial, sans-serif" font-size="14" font-weight="700" fill="#2563eb">—</text>
+<rect x="1280" y="265" width="580" height="535" rx="14" fill="#ffffff"/>
+<rect x="1280" y="265" width="580" height="8" rx="0" fill="#b45309"/>
+<text x="1302" y="303.47" font-family="Arial, sans-serif" font-size="17" font-weight="700" fill="#b45309">ASSETS / ITAM</text>
+<text x="1302" y="344.3" font-family="Arial, sans-serif" font-size="30" font-weight="700" fill="#0f172a">it_assets</text>
+<text x="1302" y="381.56" font-family="Arial, sans-serif" font-size="16" font-weight="700" fill="#64748b">COLUMN</text>
+<text x="1645" y="381.56" font-family="Arial, sans-serif" font-size="16" font-weight="700" fill="#64748b">TYPE</text>
+<text x="1773" y="378.83" font-family="Arial, sans-serif" font-size="13" font-weight="700" fill="#64748b">KEY / NULL</text>
+<rect x="1292" y="399" width="556" height="32" rx="0" fill="#f8fafc"/>
+<text x="1302" y="420.2" font-family="Arial, sans-serif" font-size="20" font-weight="700" fill="#0f172a">asset_id</text>
+<text x="1645" y="416.56" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#475569">INTEGER</text>
+<text x="1773" y="414.74" font-family="Arial, sans-serif" font-size="14" font-weight="700" fill="#b45309">PK</text>
+<text x="1302" y="453.2" font-family="Arial, sans-serif" font-size="20" font-weight="400" fill="#0f172a">hostname</text>
+<text x="1645" y="449.56" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#475569">VARCHAR(64)</text>
+<text x="1773" y="447.74" font-family="Arial, sans-serif" font-size="14" font-weight="700" fill="#b45309">UQ NN</text>
+<rect x="1292" y="465" width="556" height="32" rx="0" fill="#f8fafc"/>
+<text x="1302" y="486.2" font-family="Arial, sans-serif" font-size="20" font-weight="400" fill="#0f172a">ip_address</text>
+<text x="1645" y="482.56" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#475569">VARCHAR(45)</text>
+<text x="1773" y="480.74" font-family="Arial, sans-serif" font-size="14" font-weight="700" fill="#b45309">UQ NN</text>
+<text x="1302" y="519.2" font-family="Arial, sans-serif" font-size="20" font-weight="400" fill="#0f172a">criticality_level</text>
+<text x="1645" y="515.56" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#475569">VARCHAR(16)</text>
+<text x="1773" y="513.74" font-family="Arial, sans-serif" font-size="14" font-weight="700" fill="#b45309">NN</text>
+<rect x="1292" y="531" width="556" height="32" rx="0" fill="#f8fafc"/>
+<text x="1302" y="552.2" font-family="Arial, sans-serif" font-size="20" font-weight="400" fill="#0f172a">asset_type</text>
+<text x="1645" y="548.56" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#475569">VARCHAR(64)</text>
+<text x="1773" y="546.74" font-family="Arial, sans-serif" font-size="14" font-weight="700" fill="#b45309">—</text>
+<text x="1302" y="585.2" font-family="Arial, sans-serif" font-size="20" font-weight="400" fill="#0f172a">owner_department</text>
+<text x="1645" y="581.56" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#475569">VARCHAR(64)</text>
+<text x="1773" y="579.74" font-family="Arial, sans-serif" font-size="14" font-weight="700" fill="#b45309">—</text>
+<rect x="60" y="825" width="580" height="535" rx="14" fill="#ffffff"/>
+<rect x="60" y="825" width="580" height="8" rx="0" fill="#be123c"/>
+<text x="82" y="863.47" font-family="Arial, sans-serif" font-size="17" font-weight="700" fill="#be123c">CHANGES / ITSM</text>
+<text x="82" y="904.3" font-family="Arial, sans-serif" font-size="30" font-weight="700" fill="#0f172a">change_tickets</text>
+<text x="82" y="941.56" font-family="Arial, sans-serif" font-size="16" font-weight="700" fill="#64748b">COLUMN</text>
+<text x="425" y="941.56" font-family="Arial, sans-serif" font-size="16" font-weight="700" fill="#64748b">TYPE</text>
+<text x="553" y="938.83" font-family="Arial, sans-serif" font-size="13" font-weight="700" fill="#64748b">KEY / NULL</text>
+<rect x="72" y="959" width="556" height="32" rx="0" fill="#f8fafc"/>
+<text x="82" y="980.2" font-family="Arial, sans-serif" font-size="20" font-weight="700" fill="#0f172a">ticket_id</text>
+<text x="425" y="976.56" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#475569">INTEGER</text>
+<text x="553" y="974.74" font-family="Arial, sans-serif" font-size="14" font-weight="700" fill="#be123c">PK</text>
+<text x="82" y="1013.2" font-family="Arial, sans-serif" font-size="20" font-weight="400" fill="#0f172a">user_id</text>
+<text x="425" y="1009.56" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#475569">INTEGER</text>
+<text x="553" y="1007.74" font-family="Arial, sans-serif" font-size="14" font-weight="700" fill="#be123c">FK NN</text>
+<rect x="72" y="1025" width="556" height="32" rx="0" fill="#f8fafc"/>
+<text x="82" y="1046.2" font-family="Arial, sans-serif" font-size="20" font-weight="400" fill="#0f172a">asset_id</text>
+<text x="425" y="1042.56" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#475569">INTEGER</text>
+<text x="553" y="1040.74" font-family="Arial, sans-serif" font-size="14" font-weight="700" fill="#be123c">FK NN</text>
+<text x="82" y="1079.2" font-family="Arial, sans-serif" font-size="20" font-weight="400" fill="#0f172a">change_type</text>
+<text x="425" y="1075.56" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#475569">VARCHAR(64)</text>
+<text x="553" y="1073.74" font-family="Arial, sans-serif" font-size="14" font-weight="700" fill="#be123c">NN</text>
+<rect x="72" y="1091" width="556" height="32" rx="0" fill="#f8fafc"/>
+<text x="82" y="1112.2" font-family="Arial, sans-serif" font-size="20" font-weight="400" fill="#0f172a">approved_start</text>
+<text x="425" y="1108.56" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#475569">DATETIME</text>
+<text x="553" y="1106.74" font-family="Arial, sans-serif" font-size="14" font-weight="700" fill="#be123c">NN</text>
+<text x="82" y="1145.2" font-family="Arial, sans-serif" font-size="20" font-weight="400" fill="#0f172a">approved_end</text>
+<text x="425" y="1141.56" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#475569">DATETIME</text>
+<text x="553" y="1139.74" font-family="Arial, sans-serif" font-size="14" font-weight="700" fill="#be123c">NN</text>
+<rect x="72" y="1157" width="556" height="32" rx="0" fill="#f8fafc"/>
+<text x="82" y="1178.2" font-family="Arial, sans-serif" font-size="20" font-weight="400" fill="#0f172a">status</text>
+<text x="425" y="1174.56" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#475569">VARCHAR(32)</text>
+<text x="553" y="1172.74" font-family="Arial, sans-serif" font-size="14" font-weight="700" fill="#be123c">NN</text>
+<text x="82" y="1211.2" font-family="Arial, sans-serif" font-size="20" font-weight="400" fill="#0f172a">description</text>
+<text x="425" y="1207.56" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#475569">TEXT</text>
+<text x="553" y="1205.74" font-family="Arial, sans-serif" font-size="14" font-weight="700" fill="#be123c">—</text>
+<rect x="670" y="825" width="580" height="535" rx="14" fill="#ffffff"/>
+<rect x="670" y="825" width="580" height="8" rx="0" fill="#7c3aed"/>
+<text x="692" y="863.47" font-family="Arial, sans-serif" font-size="17" font-weight="700" fill="#7c3aed">TELEMETRY / UEBA</text>
+<text x="692" y="904.3" font-family="Arial, sans-serif" font-size="30" font-weight="700" fill="#0f172a">behavioral_logs</text>
+<text x="692" y="941.56" font-family="Arial, sans-serif" font-size="16" font-weight="700" fill="#64748b">COLUMN</text>
+<text x="1035" y="941.56" font-family="Arial, sans-serif" font-size="16" font-weight="700" fill="#64748b">TYPE</text>
+<text x="1163" y="938.83" font-family="Arial, sans-serif" font-size="13" font-weight="700" fill="#64748b">KEY / NULL</text>
+<rect x="682" y="959" width="556" height="32" rx="0" fill="#f8fafc"/>
+<text x="692" y="980.2" font-family="Arial, sans-serif" font-size="20" font-weight="700" fill="#0f172a">log_id</text>
+<text x="1035" y="976.56" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#475569">INTEGER</text>
+<text x="1163" y="974.74" font-family="Arial, sans-serif" font-size="14" font-weight="700" fill="#7c3aed">PK</text>
+<text x="692" y="1013.2" font-family="Arial, sans-serif" font-size="20" font-weight="400" fill="#0f172a">user_id</text>
+<text x="1035" y="1009.56" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#475569">INTEGER</text>
+<text x="1163" y="1007.74" font-family="Arial, sans-serif" font-size="14" font-weight="700" fill="#7c3aed">FK NN</text>
+<rect x="682" y="1025" width="556" height="32" rx="0" fill="#f8fafc"/>
+<text x="692" y="1046.2" font-family="Arial, sans-serif" font-size="20" font-weight="400" fill="#0f172a">asset_id</text>
+<text x="1035" y="1042.56" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#475569">INTEGER</text>
+<text x="1163" y="1040.74" font-family="Arial, sans-serif" font-size="14" font-weight="700" fill="#7c3aed">FK NN</text>
+<text x="692" y="1079.2" font-family="Arial, sans-serif" font-size="20" font-weight="400" fill="#0f172a">event_type</text>
+<text x="1035" y="1075.56" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#475569">VARCHAR(64)</text>
+<text x="1163" y="1073.74" font-family="Arial, sans-serif" font-size="14" font-weight="700" fill="#7c3aed">NN</text>
+<rect x="682" y="1091" width="556" height="32" rx="0" fill="#f8fafc"/>
+<text x="692" y="1112.2" font-family="Arial, sans-serif" font-size="20" font-weight="400" fill="#0f172a">timestamp</text>
+<text x="1035" y="1108.56" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#475569">DATETIME</text>
+<text x="1163" y="1106.74" font-family="Arial, sans-serif" font-size="14" font-weight="700" fill="#7c3aed">NN</text>
+<text x="692" y="1145.2" font-family="Arial, sans-serif" font-size="20" font-weight="400" fill="#0f172a">details</text>
+<text x="1035" y="1141.56" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#475569">TEXT</text>
+<text x="1163" y="1139.74" font-family="Arial, sans-serif" font-size="14" font-weight="700" fill="#7c3aed">—</text>
+<rect x="682" y="1157" width="556" height="32" rx="0" fill="#f8fafc"/>
+<text x="692" y="1178.2" font-family="Arial, sans-serif" font-size="20" font-weight="400" fill="#0f172a">source_ip</text>
+<text x="1035" y="1174.56" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#475569">VARCHAR(45)</text>
+<text x="1163" y="1172.74" font-family="Arial, sans-serif" font-size="14" font-weight="700" fill="#7c3aed">—</text>
+<text x="692" y="1211.2" font-family="Arial, sans-serif" font-size="20" font-weight="400" fill="#0f172a">anomaly_type</text>
+<text x="1035" y="1207.56" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#475569">VARCHAR(128)</text>
+<text x="1163" y="1205.74" font-family="Arial, sans-serif" font-size="14" font-weight="700" fill="#7c3aed">—</text>
+<rect x="1280" y="825" width="580" height="535" rx="14" fill="#ffffff"/>
+<rect x="1280" y="825" width="580" height="8" rx="0" fill="#c2410c"/>
+<text x="1302" y="863.47" font-family="Arial, sans-serif" font-size="17" font-weight="700" fill="#c2410c">RISK / SOC</text>
+<text x="1302" y="904.3" font-family="Arial, sans-serif" font-size="30" font-weight="700" fill="#0f172a">alerts</text>
+<text x="1302" y="941.56" font-family="Arial, sans-serif" font-size="16" font-weight="700" fill="#64748b">COLUMN</text>
+<text x="1645" y="941.56" font-family="Arial, sans-serif" font-size="16" font-weight="700" fill="#64748b">TYPE</text>
+<text x="1773" y="938.83" font-family="Arial, sans-serif" font-size="13" font-weight="700" fill="#64748b">KEY / NULL</text>
+<rect x="1292" y="959" width="556" height="32" rx="0" fill="#f8fafc"/>
+<text x="1302" y="980.2" font-family="Arial, sans-serif" font-size="20" font-weight="700" fill="#0f172a">alert_id</text>
+<text x="1645" y="976.56" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#475569">INTEGER</text>
+<text x="1773" y="974.74" font-family="Arial, sans-serif" font-size="14" font-weight="700" fill="#c2410c">PK</text>
+<text x="1302" y="1013.2" font-family="Arial, sans-serif" font-size="20" font-weight="400" fill="#0f172a">log_id</text>
+<text x="1645" y="1009.56" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#475569">INTEGER</text>
+<text x="1773" y="1007.74" font-family="Arial, sans-serif" font-size="14" font-weight="700" fill="#c2410c">FK NN</text>
+<rect x="1292" y="1025" width="556" height="32" rx="0" fill="#f8fafc"/>
+<text x="1302" y="1046.2" font-family="Arial, sans-serif" font-size="20" font-weight="400" fill="#0f172a">user_id</text>
+<text x="1645" y="1042.56" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#475569">INTEGER</text>
+<text x="1773" y="1040.74" font-family="Arial, sans-serif" font-size="14" font-weight="700" fill="#c2410c">FK NN</text>
+<text x="1302" y="1079.2" font-family="Arial, sans-serif" font-size="20" font-weight="400" fill="#0f172a">raw_ml_risk_score</text>
+<text x="1645" y="1075.56" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#475569">FLOAT</text>
+<text x="1773" y="1073.74" font-family="Arial, sans-serif" font-size="14" font-weight="700" fill="#c2410c">NN</text>
+<rect x="1292" y="1091" width="556" height="32" rx="0" fill="#f8fafc"/>
+<text x="1302" y="1112.2" font-family="Arial, sans-serif" font-size="20" font-weight="400" fill="#0f172a">context_adjusted_risk_score</text>
+<text x="1645" y="1108.56" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#475569">FLOAT</text>
+<text x="1773" y="1106.74" font-family="Arial, sans-serif" font-size="14" font-weight="700" fill="#c2410c">NN</text>
+<text x="1302" y="1145.2" font-family="Arial, sans-serif" font-size="20" font-weight="400" fill="#0f172a">suppression_status</text>
+<text x="1645" y="1141.56" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#475569">VARCHAR(16)</text>
+<text x="1773" y="1139.74" font-family="Arial, sans-serif" font-size="14" font-weight="700" fill="#c2410c">NN</text>
+<rect x="1292" y="1157" width="556" height="32" rx="0" fill="#f8fafc"/>
+<text x="1302" y="1178.2" font-family="Arial, sans-serif" font-size="20" font-weight="400" fill="#0f172a">suppression_reason</text>
+<text x="1645" y="1174.56" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#475569">TEXT</text>
+<text x="1773" y="1172.74" font-family="Arial, sans-serif" font-size="14" font-weight="700" fill="#c2410c">—</text>
+<text x="1302" y="1211.2" font-family="Arial, sans-serif" font-size="20" font-weight="400" fill="#0f172a">severity</text>
+<text x="1645" y="1207.56" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#475569">VARCHAR(16)</text>
+<text x="1773" y="1205.74" font-family="Arial, sans-serif" font-size="14" font-weight="700" fill="#c2410c">NN</text>
+<rect x="1292" y="1223" width="556" height="32" rx="0" fill="#f8fafc"/>
+<text x="1302" y="1244.2" font-family="Arial, sans-serif" font-size="20" font-weight="400" fill="#0f172a">created_at</text>
+<text x="1645" y="1240.56" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#475569">DATETIME</text>
+<text x="1773" y="1238.74" font-family="Arial, sans-serif" font-size="14" font-weight="700" fill="#c2410c">NN</text>
+<text x="1302" y="1277.2" font-family="Arial, sans-serif" font-size="20" font-weight="400" fill="#0f172a">analyst_status</text>
+<text x="1645" y="1273.56" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#475569">VARCHAR(32)</text>
+<text x="1773" y="1271.74" font-family="Arial, sans-serif" font-size="14" font-weight="700" fill="#c2410c">NN</text>
+<rect x="1292" y="1289" width="556" height="32" rx="0" fill="#f8fafc"/>
+<text x="1302" y="1310.2" font-family="Arial, sans-serif" font-size="20" font-weight="400" fill="#0f172a">context_factors</text>
+<text x="1645" y="1306.56" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#475569">TEXT</text>
+<text x="1773" y="1304.74" font-family="Arial, sans-serif" font-size="14" font-weight="700" fill="#c2410c">—</text>
+<rect x="60" y="1405" width="1800" height="330" rx="14" fill="#ffffff"/>
+<text x="84" y="1447.11" font-family="Arial, sans-serif" font-size="21" font-weight="700" fill="#0f172a">FOREIGN-KEY RELATIONSHIPS</text>
+<text x="84" y="1482.11" font-family="Arial, sans-serif" font-size="21" font-weight="400" fill="#334155">Each child references 1 parent (required) or 0..1 parent (nullable). Every parent can have 0..N children.</text>
+<text x="84" y="1533.11" font-family="Arial, sans-serif" font-size="21" font-weight="700" fill="#0f172a">users.role_id</text>
+<text x="502" y="1534.93" font-family="Arial, sans-serif" font-size="23" font-weight="700" fill="#2563eb">→</text>
+<text x="540" y="1533.11" font-family="Arial, sans-serif" font-size="21" font-weight="400" fill="#334155">roles.role_id</text>
+<text x="839" y="1532.2" font-family="Arial, sans-serif" font-size="20" font-weight="700" fill="#2563eb">[0..1]</text>
+<text x="84" y="1581.11" font-family="Arial, sans-serif" font-size="21" font-weight="700" fill="#0f172a">users.previous_role_id</text>
+<text x="502" y="1582.93" font-family="Arial, sans-serif" font-size="23" font-weight="700" fill="#2563eb">→</text>
+<text x="540" y="1581.11" font-family="Arial, sans-serif" font-size="21" font-weight="400" fill="#334155">roles.role_id</text>
+<text x="839" y="1580.2" font-family="Arial, sans-serif" font-size="20" font-weight="700" fill="#2563eb">[0..1]</text>
+<text x="84" y="1629.11" font-family="Arial, sans-serif" font-size="21" font-weight="700" fill="#0f172a">change_tickets.user_id</text>
+<text x="502" y="1630.93" font-family="Arial, sans-serif" font-size="23" font-weight="700" fill="#2563eb">→</text>
+<text x="540" y="1629.11" font-family="Arial, sans-serif" font-size="21" font-weight="400" fill="#334155">users.user_id</text>
+<text x="839" y="1628.2" font-family="Arial, sans-serif" font-size="20" font-weight="700" fill="#2563eb">[1]</text>
+<text x="84" y="1677.11" font-family="Arial, sans-serif" font-size="21" font-weight="700" fill="#0f172a">change_tickets.asset_id</text>
+<text x="502" y="1678.93" font-family="Arial, sans-serif" font-size="23" font-weight="700" fill="#2563eb">→</text>
+<text x="540" y="1677.11" font-family="Arial, sans-serif" font-size="21" font-weight="400" fill="#334155">it_assets.asset_id</text>
+<text x="839" y="1676.2" font-family="Arial, sans-serif" font-size="20" font-weight="700" fill="#2563eb">[1]</text>
+<text x="979" y="1533.11" font-family="Arial, sans-serif" font-size="21" font-weight="700" fill="#0f172a">behavioral_logs.user_id</text>
+<text x="1397" y="1534.93" font-family="Arial, sans-serif" font-size="23" font-weight="700" fill="#2563eb">→</text>
+<text x="1435" y="1533.11" font-family="Arial, sans-serif" font-size="21" font-weight="400" fill="#334155">users.user_id</text>
+<text x="1734" y="1532.2" font-family="Arial, sans-serif" font-size="20" font-weight="700" fill="#2563eb">[1]</text>
+<text x="979" y="1581.11" font-family="Arial, sans-serif" font-size="21" font-weight="700" fill="#0f172a">behavioral_logs.asset_id</text>
+<text x="1397" y="1582.93" font-family="Arial, sans-serif" font-size="23" font-weight="700" fill="#2563eb">→</text>
+<text x="1435" y="1581.11" font-family="Arial, sans-serif" font-size="21" font-weight="400" fill="#334155">it_assets.asset_id</text>
+<text x="1734" y="1580.2" font-family="Arial, sans-serif" font-size="20" font-weight="700" fill="#2563eb">[1]</text>
+<text x="979" y="1629.11" font-family="Arial, sans-serif" font-size="21" font-weight="700" fill="#0f172a">alerts.log_id</text>
+<text x="1397" y="1630.93" font-family="Arial, sans-serif" font-size="23" font-weight="700" fill="#2563eb">→</text>
+<text x="1435" y="1629.11" font-family="Arial, sans-serif" font-size="21" font-weight="400" fill="#334155">behavioral_logs.log_id</text>
+<text x="1734" y="1628.2" font-family="Arial, sans-serif" font-size="20" font-weight="700" fill="#2563eb">[1]</text>
+<text x="979" y="1677.11" font-family="Arial, sans-serif" font-size="21" font-weight="700" fill="#0f172a">alerts.user_id</text>
+<text x="1397" y="1678.93" font-family="Arial, sans-serif" font-size="23" font-weight="700" fill="#2563eb">→</text>
+<text x="1435" y="1677.11" font-family="Arial, sans-serif" font-size="21" font-weight="400" fill="#334155">users.user_id</text>
+<text x="1734" y="1676.2" font-family="Arial, sans-serif" font-size="20" font-weight="700" fill="#2563eb">[1]</text>
+<text x="60" y="1783.02" font-family="Arial, sans-serif" font-size="22" font-weight="400" fill="#334155">Schema note: alerts.log_id is not UNIQUE; SQLite permits multiple alerts per log. ORM uselist=False does not enforce 1:1.</text>
+<text x="60" y="1822.11" font-family="Arial, sans-serif" font-size="21" font-weight="400" fill="#64748b">Change-ticket correlation is application logic, not a foreign key. Source: instance/ce_ueba.db; reviewed against models.py.</text>
+</svg>

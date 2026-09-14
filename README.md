@@ -157,6 +157,8 @@ flowchart LR
 
 ### Entity-relationship diagram (ERD)
 
+**Database design submission:** [Short explanation (PDF)](docs/database-design/Database_Design_Explanation.pdf) · [ERD image](docs/database-design/CE_UEBA_ERD.png) · [Editable explanation](docs/database-design/Database_Design_Explanation.md)
+
 ![CE-UEBA database schema: six tables and eight foreign-key relationships](static/assets/erd_schema.png)
 
 [Open full-resolution PNG](static/assets/erd_schema.png) · [Open scalable SVG](static/assets/erd_schema.svg)
