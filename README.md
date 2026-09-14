@@ -244,12 +244,14 @@ curl -LsSf https://astral.sh/uv/install.sh | sh
 ```
 
 **Windows PowerShell:**
+```powershell
 cd ce_ueba_flask_app
 python3 -m venv .venv
 source .venv/bin/activate
 python -m pip install -r requirements.txt
 python seed_data.py
 FLASK_DEBUG=1 python app.py
+```
 
 Open http://127.0.0.1:5001.
 
