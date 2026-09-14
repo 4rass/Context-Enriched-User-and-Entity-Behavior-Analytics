@@ -246,6 +246,11 @@ FLASK_DEBUG=1 python app.py
 
 Open http://127.0.0.1:5001.
 
+
+
+
+
+
 ### Run with uv (macOS, Linux, or Windows)
 
 Install uv first if it is not available.
