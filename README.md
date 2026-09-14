@@ -233,16 +233,7 @@ CDN-hosted Bootstrap 5, Bootstrap Icons and Chart.js libraries (offline
 alternative described at the end of this section). Bootstrap 5.3.3 CSS/JS are
 loaded with SRI `integrity` attributes.
 
-### Run with uv (macOS, Linux, or Windows)
-
-Install uv first if it is not available.
-
-**macOS / Linux:**
-
-```bash
-curl -LsSf https://astral.sh/uv/install.sh | sh
-```
-
+### Run with NO uv (macOS, Linux, or Windows)
 **Windows PowerShell:**
 ```powershell
 cd ce_ueba_flask_app
@@ -254,6 +245,16 @@ FLASK_DEBUG=1 python app.py
 ```
 
 Open http://127.0.0.1:5001.
+
+### Run with uv (macOS, Linux, or Windows)
+
+Install uv first if it is not available.
+
+**macOS / Linux:**
+
+```bash
+curl -LsSf https://astral.sh/uv/install.sh | sh
+```
 
 ```powershell
 powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
