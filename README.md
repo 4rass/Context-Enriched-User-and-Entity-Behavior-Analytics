@@ -14,7 +14,7 @@ capstone project, developed for the fictional digital banking institution
 **FinansTech Ltd.** All names, e-mail addresses, hostnames, IP addresses and
 organizational information are synthetic. IPs use documentation-safe ranges
 (RFC 5737): `192.0.2.0/24`, `198.51.100.0/24`, `203.0.113.0/24`.
-
+  
 > **Important:** the risk engine is an explainable academic **simulation**
 > and is **not** a validated production detection model.
 
