@@ -1,5 +1,7 @@
 # 🛡️ CE-UEBA
 
+![CE-UEBA home page](static/assets/screenshots/homepage.png)
+
 ### Context-Enriched User and Entity Behavior Analytics
 
 **Every signal has a story. Understand the context behind the anomaly.**
@@ -40,6 +42,8 @@ using deterministic rules and synthetic scenarios.
 - **Employee context:** review roles, activity, assets, and change history.
 - **Analyst triage:** record Open, Investigating, Closed as Benign, or Confirmed Threat.
 
+![SOC dashboard with risk metrics, filters, and recent alerts](static/assets/screenshots/dashboard.png)
+
 <a id="context-sources"></a>
 
 ## 🧩 Context sources: IAM, ITSM, ITAM, and behavior
@@ -67,6 +71,8 @@ The demo checks whether a role changed within 30 days of evaluation and whether
 the new clearance is at least the previous clearance. It also raises risk for
 activity associated with a suspended or terminated employee. These checks are
 illustrative; a role change does not prove that every subsequent action is authorized.
+
+![Employee directory with roles, clearance levels, and employment status](static/assets/screenshots/users.png)
 
 ### 🎫 ITSM: approved operational changes
 
@@ -224,6 +230,8 @@ A Medium alert can be suppressed because the suppression threshold is 40,
 while Medium severity starts at 30. Severity and suppression describe different
 aspects of the decision.
 
+
+![Risk comparison, severity, suppression, and department charts](static/assets/screenshots/graph.png)
 
 ## 🚀 Installation
 
