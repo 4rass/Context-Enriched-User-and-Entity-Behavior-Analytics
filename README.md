@@ -137,16 +137,9 @@ Flask monolith with a clean layer separation:
 
 ### Logical data flow (Mermaid)
 
-```mermaid
-flowchart LR
-    A[IAM Context\nroles, clearance, promotions] --> E[Context-Enrichment\nand Risk Engine]
-    B[ITSM Change Context\napproved windows] --> E
-    C[ITAM Asset Context\ncriticality, ownership] --> E
-    D[Behavioral Logs\nUEBA anomalies] --> E
-    E --> F[(SQLite Database)]
-    F --> G[SOC Dashboard]
-    G --> H[SOC Analyst Decision]
-```
+![CE-UEBA logical data flow](static/assets/logical_data_flow.png)
+
+[Edit in draw.io](docs/diagrams/logical_data_flow.drawio) | [Open scalable SVG](static/assets/logical_data_flow.svg)
 
 ### Processing sequence
 
