@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block title %}Sign in{% endblock %}
+{% block content %}
+<section class="ce-auth" aria-labelledby="signin-title">
+  <div class="ce-auth-intro">
+    <p class="ce-auth-eyebrow"><i class="bi bi-shield-check" aria-hidden="true"></i> CE-UEBA</p>
+    <h1 id="signin-title">Sign in to your workspace</h1>
+    <p>Review the context behind each alert. Access your security operations workspace with your organization account.</p>
+  </div>
+  <div class="ce-auth-card">
+    <h2>Welcome back</h2>
+    <p>Enter your username or email and password.</p>
+    {% if error %}<div class="alert alert-danger" role="alert">{{ error }}</div>{% endif %}
+    <form method="post" class="ce-auth-form">
+      {{ form.csrf_token }}
+      <label for="identifier">Username or email</label>
+      <input id="identifier" name="identifier" class="form-control" type="text" autocomplete="username" maxlength="256" required autofocus>
+      <label for="password">Password</label>
+      <div class="ce-password-field">
+        <input id="password" name="password" class="form-control" type="password" autocomplete="current-password" maxlength="128" required>
+        <button type="button" class="btn btn-outline-secondary ce-password-toggle" aria-controls="password" aria-pressed="false">Show</button>
+      </div>
+      <button type="submit" class="btn btn-primary ce-auth-submit">Sign in</button>
+      <p class="ce-auth-help">Need access or a password reset? Contact your administrator.</p>
+      <p class="visually-hidden ce-auth-progress" role="status" aria-live="polite"></p>
+    </form>
+  </div>
+</section>
+{% endblock %}
+{% block scripts %}<script src="{{ url_for('static', filename='js/auth.js') }}" defer></script>{% endblock %}

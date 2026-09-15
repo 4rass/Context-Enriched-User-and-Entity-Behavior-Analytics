@@ -1,6 +1,8 @@
 """Automated tests for CE-UEBA (run against a temporary SQLite database)."""
 
 import pytest
+import secrets
+from auth import set_password
 
 import risk_engine
 from app import create_app
@@ -12,6 +14,9 @@ from seed_data import seed_database
 def test_app(tmp_path):
     app = create_app({
         "TESTING": True,
+        "SOC_ALLOWED_ROLES": {"IT Administrator"},
+        "SOC_REVIEW_ROLES": {"IT Administrator"},
+        "RATELIMIT_ENABLED": False,
         "WTF_CSRF_ENABLED": False,
         "SQLALCHEMY_DATABASE_URI": "sqlite:///" + str(tmp_path / "ce_ueba_test.db"),
     })
@@ -19,12 +24,19 @@ def test_app(tmp_path):
         db.drop_all()
         db.create_all()
         seed_database(verbose=False)
+        user = User.query.filter_by(username="zeynep.arslan").one()
+        app.config['TEST_PASSWORD'] = secrets.token_urlsafe(24)
+        set_password(user, app.config['TEST_PASSWORD'], temporary=False)
+        db.session.commit()
     return app
 
 
 @pytest.fixture()
 def client(test_app):
-    return test_app.test_client()
+    client = test_app.test_client()
+    assert client.post('/login', data={'identifier': 'zeynep.arslan',
+        'password': test_app.config['TEST_PASSWORD']}).status_code == 302
+    return client
 
 
 # ------------------------------------------------------------- page tests --

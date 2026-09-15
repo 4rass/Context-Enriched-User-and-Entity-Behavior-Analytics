@@ -1,6 +1,9 @@
 """SQLAlchemy models for CE-UEBA (Context-Enriched UEBA) POC."""
 
 import sqlite3
+from datetime import datetime, timezone
+from flask_login import UserMixin
+from auth_migration import normalize_identifier
 
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import event
@@ -30,7 +33,7 @@ class Role(db.Model):
         return f"<Role {self.role_name} clearance={self.clearance_level}>"
 
 
-class User(db.Model):
+class User(UserMixin, db.Model):
     __tablename__ = "users"
 
     user_id = db.Column(db.Integer, primary_key=True)
@@ -42,6 +45,23 @@ class User(db.Model):
     role_id = db.Column(db.Integer, db.ForeignKey("roles.role_id"))
     previous_role_id = db.Column(db.Integer, db.ForeignKey("roles.role_id"))
     role_change_date = db.Column(db.DateTime)
+
+    password_hash = db.Column(db.Text)
+    is_active = db.Column(db.Boolean, nullable=False, default=True, server_default="1")
+    must_change_password = db.Column(db.Boolean, nullable=False, default=True, server_default="1")
+    failed_login_attempts = db.Column(db.Integer, nullable=False, default=0, server_default="0")
+    locked_until = db.Column(db.DateTime)
+    last_login_at = db.Column(db.DateTime)
+    password_changed_at = db.Column(db.DateTime)
+    created_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc).replace(tzinfo=None))
+    updated_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc).replace(tzinfo=None),
+                           onupdate=lambda: datetime.now(timezone.utc).replace(tzinfo=None))
+    login_username = db.Column(db.String(256), unique=True)
+    login_email = db.Column(db.String(256), unique=True)
+    auth_token = db.Column(db.String(128), unique=True)
+
+    def get_id(self):
+        return self.auth_token
 
     # Two FKs to the same table require explicit foreign_keys lists.
     role = db.relationship("Role", foreign_keys=[role_id])
@@ -116,3 +136,21 @@ class Alert(db.Model):
     context_factors = db.Column(db.Text)
 
     user = db.relationship("User", backref="alerts")
+
+
+@event.listens_for(User, "before_insert")
+@event.listens_for(User, "before_update")
+def _normalize_login_identifiers(mapper, connection, user):
+    if user.is_active is False or user.employment_status != 'Active':
+        user.auth_token = None
+    user.login_username = normalize_identifier(user.username)
+    user.login_email = normalize_identifier(user.email)
+    if not user.login_username or not user.login_email or max(len(user.login_username), len(user.login_email)) > 256:
+        raise ValueError("Invalid login identifier")
+    # Also reject cross-field ambiguity (one employee's email equals another's username).
+    conflict = connection.execute(db.select(User.user_id).where(
+        db.or_(User.login_username == user.login_email, User.login_email == user.login_username),
+        User.user_id != user.user_id if user.user_id is not None else db.true()
+    )).first()
+    if conflict:
+        raise ValueError("Conflicting login identifier")

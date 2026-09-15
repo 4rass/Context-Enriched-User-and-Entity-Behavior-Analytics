@@ -1,12 +1,17 @@
 """CE-UEBA Flask application (academic proof of concept)."""
 
 import os
-from datetime import datetime
+import secrets
+import logging
+from datetime import datetime, timedelta
 
 from flask import (Flask, abort, flash, jsonify, redirect, render_template,
                    request, url_for)
-from flask_wtf.csrf import CSRFProtect
+from flask_wtf.csrf import CSRFProtect, CSRFError
+from sqlalchemy.exc import SQLAlchemyError
+from auth import init_auth, soc_required, soc_review_required
 from werkzeug.exceptions import HTTPException
+from werkzeug.middleware.proxy_fix import ProxyFix
 
 import risk_engine
 from models import (Alert, BehavioralLog, ChangeTicket, Role, User, db)
@@ -18,8 +23,6 @@ VALID_ANALYST_STATUSES = {"Open", "Investigating", "Closed as Benign", "Confirme
 VALID_SEVERITIES = {"Low", "Medium", "High", "Critical"}
 VALID_SUPPRESSION_STATUSES = {"Active", "Suppressed"}
 
-# Development-only fallback; the README documents setting CE_UEBA_SECRET_KEY.
-DEV_SECRET_KEY = "dev-only-insecure-secret-key-change-me"
 
 DEFAULT_CSP = (
     "default-src 'self'; "
@@ -40,7 +43,23 @@ def create_app(config_overrides=None):
     os.makedirs(app.instance_path, exist_ok=True)
 
     app.config.update(
-        SECRET_KEY=os.environ.get("CE_UEBA_SECRET_KEY", DEV_SECRET_KEY),
+        SECRET_KEY=os.environ.get("CE_UEBA_SECRET_KEY"),
+        APP_ENV=os.environ.get("CE_UEBA_ENV", "development"),
+        TRUSTED_PROXY_HOPS=int(os.environ.get("CE_UEBA_PROXY_HOPS", "0")),
+        SOC_ALLOWED_ROLES=frozenset(r.strip() for r in os.environ.get("CE_UEBA_SOC_ROLES", "").split(",") if r.strip()),
+        SOC_REVIEW_ROLES=frozenset(r.strip() for r in os.environ.get("CE_UEBA_SOC_REVIEW_ROLES", "").split(",") if r.strip()),
+        SESSION_COOKIE_HTTPONLY=True,
+        SESSION_COOKIE_SAMESITE="Lax",
+        SESSION_COOKIE_SECURE=os.environ.get("CE_UEBA_ENV") == "production",
+        PERMANENT_SESSION_LIFETIME=timedelta(hours=8),
+        AUTH_IDLE_SECONDS=1800,
+        AUTH_MAX_SECONDS=28800,
+        AUTH_MAX_FAILURES=5,
+        AUTH_LOCK_SECONDS=900,
+        RATELIMIT_STORAGE_URI=os.environ.get("CE_UEBA_RATE_STORAGE", "memory://"),
+        RATELIMIT_HEADERS_ENABLED=True,
+        RATELIMIT_SWALLOW_ERRORS=False,
+        RATELIMIT_IN_MEMORY_FALLBACK_ENABLED=False,
         SQLALCHEMY_DATABASE_URI=os.environ.get(
             "CE_UEBA_DATABASE_URI",
             "sqlite:///" + os.path.join(app.instance_path, "ce_ueba.db"),
@@ -51,10 +70,41 @@ def create_app(config_overrides=None):
     if config_overrides:
         app.config.update(config_overrides)
 
+    if app.config['APP_ENV'] not in {'development', 'production'}:
+        raise RuntimeError('CE_UEBA_ENV must be development or production.')
+    if app.config['APP_ENV'] == 'production':
+        if not app.config['SECRET_KEY'] or len(app.config['SECRET_KEY']) < 32:
+            raise RuntimeError('Production requires CE_UEBA_SECRET_KEY with at least 32 random characters.')
+        if app.config['RATELIMIT_STORAGE_URI'].startswith('memory:'):
+            raise RuntimeError('Production requires shared rate-limit storage.')
+        if not app.config['SESSION_COOKIE_SECURE']:
+            raise RuntimeError('Production requires HTTPS and secure cookies.')
+        if app.config.get('DEBUG') or os.environ.get('FLASK_DEBUG') == '1':
+            raise RuntimeError('Production cannot run in debug mode.')
+    elif not app.config['SECRET_KEY']:
+        app.config['SECRET_KEY'] = secrets.token_urlsafe(48)
+        app.logger.warning('Using an ephemeral development signing key; sessions expire on restart.')
+
+    proxy_hops = app.config['TRUSTED_PROXY_HOPS']
+    if not isinstance(proxy_hops, int) or proxy_hops < 0:
+        raise RuntimeError('CE_UEBA_PROXY_HOPS must be a non-negative integer.')
+    if proxy_hops:
+        # Opt-in only; deployment must prevent direct access and overwrite proxy headers.
+        app.wsgi_app = ProxyFix(app.wsgi_app, x_for=proxy_hops, x_proto=proxy_hops,
+                                x_host=0, x_port=0, x_prefix=0)
+    app.logger.setLevel(logging.INFO)
     db.init_app(app)
+    init_auth(app)
     csrf.init_app(app)
 
     with app.app_context():
+        from sqlalchemy import inspect
+        from auth_migration import COLUMNS
+        inspector = inspect(db.engine)
+        if inspector.has_table('users'):
+            present = {column['name'] for column in inspector.get_columns('users')}
+            if set(COLUMNS) - present:
+                raise RuntimeError('Authentication migration required. Run auth_migration.py before starting the application.')
         db.create_all()
 
     _register_routes(app)
@@ -132,6 +182,7 @@ def _register_routes(app):
         return render_template("index.html")
 
     @app.route("/dashboard")
+    @soc_required
     def dashboard():
         alerts = _filtered_alerts()
         departments, event_types = _filter_options()
@@ -145,6 +196,7 @@ def _register_routes(app):
         )
 
     @app.route("/alert/<int:alert_id>")
+    @soc_required
     def alert_details(alert_id):
         alert = db.session.get(Alert, alert_id)
         if alert is None:
@@ -182,6 +234,7 @@ def _register_routes(app):
         )
 
     @app.route("/users")
+    @soc_required
     def users():
         rows = []
         for user in User.query.order_by(User.full_name).all():
@@ -190,6 +243,7 @@ def _register_routes(app):
         return render_template("users.html", rows=rows)
 
     @app.route("/user/<int:user_id>")
+    @soc_required
     def user_profile(user_id):
         user = db.session.get(User, user_id)
         if user is None:
@@ -240,6 +294,7 @@ def _register_routes(app):
         )
 
     @app.route("/alerts/<int:alert_id>/review", methods=["POST"])
+    @soc_review_required
     def review_alert(alert_id):
         alert = db.session.get(Alert, alert_id)
         if alert is None:
@@ -257,6 +312,7 @@ def _register_routes(app):
         return redirect(url_for("alert_details", alert_id=alert_id))
 
     @app.route("/api/dashboard-data")
+    @soc_required
     def dashboard_data():
         alerts = _filtered_alerts()
         summary = _summary_for(alerts)
@@ -302,6 +358,24 @@ def _register_routes(app):
 
 def _register_error_handlers(app):
 
+    @app.errorhandler(CSRFError)
+    def csrf_error(error):
+        return render_template('error.html', code=400,
+            message='This form expired or could not be verified. Reload the page and try again.'), 400
+
+    @app.errorhandler(SQLAlchemyError)
+    def database_error(error):
+        db.session.rollback()
+        app.logger.error('Database operation failed (%s).', type(error).__name__)
+        # Bypass context processors: Flask-Login must not retry a failed user lookup.
+        return app.jinja_env.get_template('auth/unavailable.html').render(), 503
+
+    @app.errorhandler(429)
+    def rate_limit_error(error):
+        return render_template('error.html', code=429,
+            message='Too many attempts. Please wait before trying again.'), 429
+
+
     @app.errorhandler(404)
     def not_found(error):
         return render_template(
@@ -341,13 +415,22 @@ def _register_security_headers(app):
         response.headers.setdefault("Referrer-Policy", "strict-origin-when-cross-origin")
         response.headers["Content-Security-Policy"] = DEFAULT_CSP
         response.headers.setdefault("Cache-Control", "no-store")
+        if app.config['APP_ENV'] == 'production' and request.is_secure:
+            response.headers['Strict-Transport-Security'] = 'max-age=31536000'
         return response
 
 
-application = create_app()
+def __getattr__(name):
+    # Keep WSGI/Flask CLI compatibility without creating a real DB on test imports.
+    if name == 'application':
+        instance = create_app()
+        globals()['application'] = instance
+        return instance
+    raise AttributeError(name)
 
 if __name__ == "__main__":
     # Debug mode is OFF by default; enable with FLASK_DEBUG=1 for development.
     # Port 5000 is used by AirPlay Receiver on macOS.
+    application = create_app()
     application.run(host="127.0.0.1", port=5001,
                     debug=os.environ.get("FLASK_DEBUG") == "1")

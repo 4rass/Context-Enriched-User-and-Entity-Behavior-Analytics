@@ -27,9 +27,20 @@
     <div class="collapse navbar-collapse" id="mainNav">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item"><a class="nav-link{% if request.endpoint == 'index' %} active{% endif %}" {% if request.endpoint == 'index' %}aria-current="page"{% endif %} href="{{ url_for('index') }}"><i class="bi bi-house-door me-1"></i>Home</a></li>
+        {% if soc_permitted() and not current_user.must_change_password %}
         <li class="nav-item"><a class="nav-link{% if request.endpoint == 'dashboard' %} active{% endif %}" {% if request.endpoint == 'dashboard' %}aria-current="page"{% endif %} href="{{ url_for('dashboard') }}"><i class="bi bi-speedometer2 me-1"></i>Dashboard</a></li>
         <li class="nav-item"><a class="nav-link{% if request.endpoint == 'users' %} active{% endif %}" {% if request.endpoint == 'users' %}aria-current="page"{% endif %} href="{{ url_for('users') }}"><i class="bi bi-people me-1"></i>Users</a></li>
+        {% endif %}
       </ul>
+      {% if current_user.is_authenticated %}
+      <a class="nav-link me-3" href="{{ url_for('auth.change_password') }}">Change password</a>
+      <form method="post" action="{{ url_for('auth.logout') }}" class="me-3">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <button class="btn btn-outline-light btn-sm" type="submit">Sign out</button>
+      </form>
+      {% else %}
+      <a class="btn btn-outline-light btn-sm me-3" href="{{ url_for('auth.login') }}">Sign in</a>
+      {% endif %}
       <span class="navbar-text d-none d-lg-inline ce-nav-sub">
         <i class="bi bi-bank me-1"></i>FinansTech Ltd. · Security Operations
       </span>

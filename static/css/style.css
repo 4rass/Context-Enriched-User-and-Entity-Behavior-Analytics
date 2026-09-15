@@ -293,3 +293,23 @@ summary:focus-visible { outline: 2px solid var(--ce-accent); outline-offset: 4px
 @media (max-width: 1000px) { .soc-hero { gap: 30px; }.soc-source-grid { grid-template-columns: repeat(2, 1fr); }.soc-problem { gap: 35px; } }
 @media (max-width: 767px) { .soc-home { padding: 0 16px; }.soc-hero { grid-template-columns: 1fr; padding: 45px 0; }.soc-hero h1 { font-size: clamp(3.5rem, 13vw, 5rem); }.soc-console { max-width: 540px; width: 100%; margin: auto; }.soc-problem, .soc-path-grid { grid-template-columns: 1fr; gap: 22px; }.soc-section { padding: 44px 0; }.soc-section-heading { display: block; }.soc-chapter-nav { gap: 16px; }.soc-chapter-nav > span { width: 100%; }.soc-actions { gap: 20px; } }
 @media (max-width: 420px) { .soc-source-grid { grid-template-columns: 1fr; }.soc-console { padding: 18px; }.soc-button { width: 100%; font-size: .88rem; } }
+
+/* Authentication uses the same navy and teal palette as the SOC console. */
+.ce-auth { max-width: 1060px; margin: 5rem auto; display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; padding: 1rem; }
+.ce-auth-intro h1 { font-size: clamp(2rem, 4vw, 3.25rem); font-weight: 700; color: #e8eef8; }
+.ce-auth-intro p, .ce-auth-card p { color: #b7c6d9; line-height: 1.7; }
+.ce-auth-eyebrow { color: #74ead5 !important; font-weight: 700; letter-spacing: .12em; }
+.ce-auth-card { background: #101b2c; border: 1px solid #345065; border-radius: 1rem; padding: 2rem; box-shadow: 0 18px 50px #0003; }
+.ce-auth-card h2 { font-size: 1.5rem; color: #e8eef8; }
+.ce-auth-form label { display: block; color: #e8eef8; margin: 1.2rem 0 .5rem; }
+.ce-auth-form .form-control { background: #0b1422; border-color: #71849c; color: #f0f5fc; min-height: 48px; }
+.ce-password-field { display: flex; gap: .5rem; }
+.ce-password-field .form-control { min-width: 0; }
+.ce-password-toggle { color: #dbe7f5; border-color: #71849c; min-width: 65px; }
+.ce-auth-submit { width: 100%; margin-top: 1.8rem; min-height: 48px; background: #74ead5; color: #092922; border-color: #74ead5; font-weight: 700; }
+.ce-auth-submit:hover { background: #9ef3e4; color: #092922; border-color: #9ef3e4; }
+.ce-auth-help { font-size: .9rem; margin: 1rem 0 0; }
+.ce-auth :focus-visible { outline: 3px solid #74ead5; outline-offset: 3px; box-shadow: none; }
+@media (max-width: 760px) { .ce-auth { grid-template-columns: 1fr; gap: 1.5rem; margin: 1.5rem auto; } .ce-auth-card { padding: 1.5rem; } }
+.ce-service-error { max-width: 40rem; margin: 4rem auto; color: #e8eef8; }
+.ce-service-error a { color: #74ead5; }

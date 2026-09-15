@@ -3,3 +3,6 @@ Flask-SQLAlchemy==3.1.1
 Flask-WTF==1.2.1
 SQLAlchemy==2.0.31
 pytest==8.2.2
+Flask-Login>=0.6.3,<0.8
+Flask-Limiter[redis]>=4.1,<5
+argon2-cffi>=25.1,<26
