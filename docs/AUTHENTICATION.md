@@ -157,6 +157,9 @@ export CE_UEBA_SOC_REVIEW_ROLES='IT Administrator'
 export CE_UEBA_ENV=development
 export CE_UEBA_SECRET_KEY="$(python3 -c 'import secrets; print(secrets.token_urlsafe(48))')"
 uv run python app.py
+
+// or run
+CE_UEBA_SOC_ROLES='IT Administrator' CE_UEBA_SOC_REVIEW_ROLES='IT Administrator' CE_UEBA_ENV=development CE_UEBA_SECRET_KEY="$(python3 -c 'import secrets; print(secrets.token_urlsafe(48))')" uv run python app.py
 ```
 
 These assignments grant permission to every active, password-initialized account
