@@ -51,6 +51,8 @@ USERS = [
      "IT Operations", "Suspended", "Database Administrator", None, None),
     ("mert.simsek", "Mert Simsek", "mert.simsek@finanstech.example",
      "Finance", "Active", "Financial Analyst", None, None),
+    #This user is a recent promotion from Financial Analyst to Senior Financial Analyst, which is relevant for the demo scenarios.
+    # And he is in "IT Administrator" role, which is relevant for the demo scenarios. --> zeynep.arslan.
     ("zeynep.arslan", "Zeynep Arslan", "zeynep.arslan@finanstech.example",
      "IT Operations", "Active", "IT Administrator", None, None),
     ("burak.ozturk", "Burak Ozturk", "burak.ozturk@finanstech.example",
